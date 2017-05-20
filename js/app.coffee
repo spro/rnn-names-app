@@ -1,6 +1,6 @@
 React = require 'react'
 ReactDOM = require 'react-dom'
-somata = require './somata-stream'
+somata = require 'somata-socketio-client'
 ContentEditable = require 'react-contenteditable'
 KefirBus = require 'kefir-bus'
 d3 = require 'd3'
@@ -59,7 +59,7 @@ App = React.createClass
 
     search: (q) ->
         @setState {loading: true}
-        somata.remote('sample', 'sample', q).map (response) -> {response, q}
+        somata.remote$('sample', 'sample', q).map (response) -> {response, q}
 
     render: ->
         <div className='container'>
@@ -95,7 +95,7 @@ App = React.createClass
             </div>
 
             <div className='info'>
-                <a href="https://github.com/spro/rnn-word-generator" target='_blank'>How does it work?</a>
+                <a href="https://github.com/spro/practical-pytorch/blob/master/conditional-char-rnn/conditional-char-rnn.ipynb" target='_blank'>How does it work?</a>
             </div>
         </div>
 
