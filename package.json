@@ -1,0 +1,14 @@
+{
+  "name": "rnn-names-app",
+  "version": "0.0.1",
+  "dependencies": {
+    "d3": "^4.9.1",
+    "kefir": "^3.7.1",
+    "kefir-bus": "^2.2.1",
+    "react": "^15.5.4",
+    "react-contenteditable": "^2.0.2",
+    "react-dom": "^15.5.4",
+    "somata-socketio": "0.0.12",
+    "somata-socketio-client": "0.0.1"
+  }
+}
