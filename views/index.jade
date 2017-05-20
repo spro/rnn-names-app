@@ -13,5 +13,5 @@ html
                 .spinner-container: .spinner
                     i.fa.fa-spin.fa-circle-o-notch
                     span.loading Loading app...
-        script(src='/socket.io/socket.io.js')
+        script(src="#{base_url || ''}/js/polyfills.js")
         script(src="#{base_url || ''}/js/app.js")

@@ -1,4 +1,4 @@
-polar = require 'somata-socketio'
+polar = require 'polar'
 somata = require 'somata'
 config = require './config'
 client = new somata.Client
@@ -8,18 +8,23 @@ app = polar config
 app.get '/', (req, res) ->
     res.render 'index'
 
-capitalize = (s) ->
+prepare = (s) ->
+    s = s.trim().replace(/[^a-zA-Z ]/, '')
     if s.length == 0
-        return s
-    s[0].toUpperCase() + s.slice(1)
+        s = 'A'
+    s = s[0].toUpperCase() + s.slice(1)
+    return s
 
-app.get '/sample.json', (req, res) ->
-    q = capitalize req.query.q?.trim() || ''
-    client.remote 'sample', 'sample', q, (err, got) ->
-        if err
-            console.log "Error:", err
-            res.send 500, err
-        else
-            res.json got
+app.get '/generate.json', (req, res) ->
+    q = prepare req.query.q or ''
+    if q.length > 20
+        res.send 500, "Input is too long"
+    else
+        client.remote 'rnn-names-generator', 'generate', q, (err, got) ->
+            if err
+                console.log "Error:", err
+                res.send 500, err
+            else
+                res.json got
 
 app.start()

@@ -1,6 +1,6 @@
 React = require 'react'
 ReactDOM = require 'react-dom'
-somata = require 'somata-socketio-client'
+fetch$ = require 'kefir-fetch'
 ContentEditable = require 'react-contenteditable'
 KefirBus = require 'kefir-bus'
 d3 = require 'd3'
@@ -49,6 +49,8 @@ App = React.createClass
                     sample.sample = sample.sample.replace(new RegExp('^' + q), '')
                 @setState {samples, searched_q: q, error: null, loading: false}
             .onError (error) =>
+                if error.error?
+                    error = error.error
                 @setState {error, loading: false}
         @q$.emit ''
 
@@ -59,7 +61,7 @@ App = React.createClass
 
     search: (q) ->
         @setState {loading: true}
-        somata.remote$('sample', 'sample', q).map (response) -> {response, q}
+        fetch$('get', '/generate.json', {query: {q}}).map (response) -> {response, q}
 
     render: ->
         <div className='container'>
@@ -76,14 +78,14 @@ App = React.createClass
                 <div className='samples'>
                     {@state.samples?.map (sample) =>
                         # console.log '[sample]', sample
-                        <div className={'sample'} key=sample.class_name>
-                            <span style={color: color(sample.class_name)}>{sample.sample}</span>
+                        <div className={'sample'} key=sample.category>
+                            <span style={color: color(sample.category)}>{sample.sample}</span>
                         </div>
                     }
                 </div>
 
                 {if @state.samples?
-                    <Key class_names={@state.samples.map (sample) -> sample.class_name} />
+                    <Key categorys={@state.samples.map (sample) -> sample.category} />
                 }
 
                 {if @state.loading
@@ -99,11 +101,11 @@ App = React.createClass
             </div>
         </div>
 
-Key = ({class_names}) ->
+Key = ({categorys}) ->
     <div className='keys'>
-        {class_names.map (class_name) ->
-            <div className='key' key=class_name>
-                <span style={backgroundColor: color(class_name)}>{class_name}</span>
+        {categorys.map (category) ->
+            <div className='key' key=category>
+                <span style={backgroundColor: color(category)}>{category}</span>
             </div>
         }
     </div>
