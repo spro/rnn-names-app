@@ -154,7 +154,15 @@ Editable = React.createClass
 
     render: ->
         <div className='editable' onClick=@focus>
-            <ContentEditable ref='input' html={@state.value} onChange=@onChange disabled=@props.disabled onKeyDown=@onKeyDown onBlur=@save onFocus=@onFocus />
+            <ContentEditable
+                ref='input'
+                html={@state.value}
+                onChange=@onChange
+                disabled=@props.disabled
+                onKeyDown=@onKeyDown
+                onBlur=@save
+                onFocus=@onFocus
+            />
             {if !@state.value?.length
                 <span className='placeholder'>Prime with ...</span>
             }
