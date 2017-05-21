@@ -1,9 +1,10 @@
 polar = require 'polar'
 somata = require 'somata'
 config = require './config'
+announce_middleware = require('nexus-announce/lib/middleware')(config.announce)
 client = new somata.Client
 
-app = polar config
+app = polar config.app, middleware: [announce_middleware]
 
 app.get '/', (req, res) ->
     res.render 'index'

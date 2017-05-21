@@ -6,6 +6,7 @@
     "kefir": "^3.7.1",
     "kefir-bus": "^2.2.1",
     "kefir-fetch": "^0.1.12",
+    "nexus-announce": "^0.2.1",
     "polar": "^0.3.1",
     "react": "^15.5.4",
     "react-contenteditable": "^2.0.2",
